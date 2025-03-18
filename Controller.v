@@ -19,14 +19,14 @@ module CLA_BIST(
   
 
   // LFSR generates pseudo-random test vectors for the CLA adder
-  lfsr6bit lfsr1(.clk(clk), .rst(rst), .mode(mode), .enl(enl), .out(cla_in1));
-  lfsr6bit lfsr2(.clk(clk), .rst(rst), .mode(mode), .enl(enl), .out(cla_in2));
+  LFSR_6bit lfsr1(.clk(clk), .rst(rst), .mode(mode), .enl(enl), .out(cla_in1));
+  LFSR_6bit lfsr2(.clk(clk), .rst(rst), .mode(mode), .enl(enl), .out(cla_in2));
 
   // CLA adder adds the inputs and generates sum and carry out
   CLA_6bit cla(.mode(mode), .a(cla_in1), .b(cla_in2), .cin(cin), .sum(cla_sum[5:0]), .cout(cla_sum[6]));
 
   // SISR calculates signature based on input data
-  sisr_4bit_sig sisr(.clk(clk), .rst(rst), .ens(ens), .in(cla_sum), .out(sisr_out), .enc(enc));
+  SISR_4bit_sig sisr(.clk(clk), .rst(rst), .ens(ens), .in(cla_sum), .out(sisr_out), .enc(enc));
 
   // Comparator compares SISR output with golden signature value
   comp comparator(.ora(sisr_out), .mode(mode), .enc(enc), .sign(golden_sign), .result(pass));
