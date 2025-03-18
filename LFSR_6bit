@@ -1,0 +1,22 @@
+// x^6 + x + 1
+
+module LFSR_6bit(
+  input clk,rst,enl, mode,
+  output reg [5:0] out
+);
+  wire tap;
+  
+  initial out = 6'b111111;
+
+  assign tap = out[5]^out[1];
+
+  always @(posedge clk, posedge rst)
+    begin
+      if(rst)
+        out <= 6'b111111;
+      else if (enl)
+        out <= {out[4:0],tap};
+      else if(!enl) 
+        out <= out;
+    end
+endmodule
